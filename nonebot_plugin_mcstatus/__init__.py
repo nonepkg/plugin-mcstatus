@@ -41,12 +41,10 @@ async def _():
                             user_id=id if type == "user" else None,
                             group_id=id if type == "group" else None,
                             message=(
-                                "【服务器状态发生变化】"
-                                f"Address: {address}\n"
-                                f"Status: {'On' if status else 'Off'}"
-                                f"\nPing: {ping}"
-                                if status
-                                else ""
+                                "【服务器状态发生变化】\n"
+                                + f"Address: {address}\n"
+                                + f"Status: {'On' if status else 'Off'}"
+                                + (f"\nPing: {ping}" if status else "")
                             ),
                         )
 
@@ -62,7 +60,6 @@ async def _(bot: Bot, event: MessageEvent, state: T_State):
         else False
     )
     if hasattr(args, "handle"):
-        try:
-            await bot.send(event, await getattr(Handle, args.handle)(args))
-        except:
-            pass
+        result = await getattr(Handle, args.handle)(args)
+        if result:
+            await bot.send(event, result)

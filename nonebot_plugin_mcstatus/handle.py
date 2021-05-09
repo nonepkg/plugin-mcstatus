@@ -16,10 +16,8 @@ class Handle:
 
         return (
             f"Address: {args.address}\n"
-            f"Status: {'On' if status else 'Off'}"
-            f"\nPing: {ping}"
-            if status
-            else ""
+            + f"Status: {'On' if status else 'Off'}"
+            + (f"\nPing: {ping}" if status else "")
         )
 
     @classmethod
