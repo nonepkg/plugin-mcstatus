@@ -10,9 +10,9 @@ from nonebot.adapters.cqhttp import (
 from nonebot import get_bots
 from mcstatus import MinecraftServer
 
-from nonebot_plugin_mcstatus.data import ServerList
-from nonebot_plugin_mcstatus.parser import mc_parser
+from nonebot_plugin_mcstatus.parser import Namespace, mc_parser
 from nonebot_plugin_mcstatus.handle import Handle
+from nonebot_plugin_mcstatus.data import Data
 
 scheduler = require("nonebot_plugin_apscheduler").scheduler
 
@@ -22,27 +22,38 @@ mc = on_shell_command("mc", parser=mc_parser, priority=5)
 # 每分钟进行一次检测
 @scheduler.scheduled_job("cron", minute="*/5", id="mcstatus")
 async def _():
-    server_list = ServerList().get_server()
+    data = Data()
+    server_list = data.get_server_list()
     bots = nonebot.get_bots()
 
     for type in server_list:
         for id in server_list[type]:
             for server in server_list[type][id]:
-                old_status = server_list[type][id][server]["status"]
-                address = server_list[type][id][server]["address"]
                 try:
-                    ping = await MinecraftServer.lookup(address).async_ping()
+                    ping = await MinecraftServer.lookup(server.address).async_ping()
                     status = True
                 except:
                     status = False
-                if status != old_status:
+                if status != server.status:
+                    server.status = status
+                    data.remove_server(
+                        server.name,
+                        user_id=id if type == "user" else None,
+                        group_id=id if type == "group" else None,
+                    )
+                    data.add_server(
+                        server,
+                        user_id=id if type == "user" else None,
+                        group_id=id if type == "group" else None,
+                    )
                     for bot in bots:
                         await bots[bot].send_msg(
                             user_id=id if type == "user" else None,
                             group_id=id if type == "group" else None,
                             message=(
                                 "【服务器状态发生变化】\n"
-                                + f"Address: {address}\n"
+                                + f"Name: {server.name}\n"
+                                + f"Address: {server.address}\n"
                                 + f"Status: {'On' if status else 'Off'}"
                                 + (f"\nPing: {ping}" if status else "")
                             ),
