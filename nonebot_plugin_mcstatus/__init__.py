@@ -60,8 +60,10 @@ async def _():
                         )
 
 
+from nonebot.params import State
+                        
 @mc.handle()
-async def _(bot: Bot, event: MessageEvent, state: T_State):
+async def _(bot: Bot, event: MessageEvent, state: T_State = State()) -> None:
     args = state["args"]
     args.user_id = event.user_id if isinstance(event, PrivateMessageEvent) else None
     args.group_id = event.group_id if isinstance(event, GroupMessageEvent) else None
