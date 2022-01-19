@@ -1,7 +1,7 @@
 import nonebot
 from nonebot.plugin import on_shell_command, require
 from nonebot.typing import T_State
-from nonebot.adapters.cqhttp import (
+from nonebot.adapters.onebot.v11 import (
     Bot,
     MessageEvent,
     PrivateMessageEvent,
@@ -51,7 +51,7 @@ async def _():
                             user_id=id if type == "user" else None,
                             group_id=id if type == "group" else None,
                             message=(
-                                "【服务器状态发生变化】\n"
+                                "[服务器状态发生变化]\n"
                                 + f"Name: {server.name}\n"
                                 + f"Address: {server.address}\n"
                                 + f"Status: {'On' if status else 'Off'}"
