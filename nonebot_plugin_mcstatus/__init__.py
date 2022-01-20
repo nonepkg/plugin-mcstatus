@@ -1,7 +1,7 @@
 import nonebot
 from nonebot.plugin import on_shell_command, require
-from nonebot.typing import T_State
-from nonebot.adapters.cqhttp import (
+from nonebot.params import ShellCommandArgs
+from nonebot.adapters.onebot.v11 import (
     Bot,
     MessageEvent,
     PrivateMessageEvent,
@@ -10,7 +10,7 @@ from nonebot.adapters.cqhttp import (
 from nonebot import get_bots
 from mcstatus import MinecraftServer
 
-from nonebot_plugin_mcstatus.parser import Namespace, mc_parser
+from nonebot_plugin_mcstatus.parser import ArgNamespace, mc_parser
 from nonebot_plugin_mcstatus.handle import Handle
 from nonebot_plugin_mcstatus.data import Data
 
@@ -61,8 +61,7 @@ async def _():
 
 
 @mc.handle()
-async def _(bot: Bot, event: MessageEvent, state: T_State):
-    args = state["args"]
+async def _(bot: Bot, event: MessageEvent, args: ArgNamespace = ShellCommandArgs()):
     args.user_id = event.user_id if isinstance(event, PrivateMessageEvent) else None
     args.group_id = event.group_id if isinstance(event, GroupMessageEvent) else None
     args.is_admin = (
