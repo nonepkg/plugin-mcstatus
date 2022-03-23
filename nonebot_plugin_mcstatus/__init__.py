@@ -1,18 +1,16 @@
-import nonebot
-from nonebot.plugin import on_shell_command, require
-from nonebot.params import ShellCommandArgs
-from nonebot.adapters.onebot.v11 import (
-    Bot,
-    MessageEvent,
-    PrivateMessageEvent,
-    GroupMessageEvent,
-)
-from nonebot import get_bots
-from mcstatus import MinecraftServer
+from typing import cast
 
-from nonebot_plugin_mcstatus.parser import ArgNamespace, mc_parser
+import nonebot
+from mcstatus import MinecraftServer
+from nonebot import get_bots
+from nonebot.adapters.onebot.v11 import (Bot, GroupMessageEvent, MessageEvent,
+                                         PrivateMessageEvent)
+from nonebot.params import ShellCommandArgs
+from nonebot.plugin import on_shell_command, require
+
+from nonebot_plugin_mcstatus.data import Data, ServerList
 from nonebot_plugin_mcstatus.handle import Handle
-from nonebot_plugin_mcstatus.data import Data
+from nonebot_plugin_mcstatus.parser import ArgNamespace, mc_parser
 
 scheduler = require("nonebot_plugin_apscheduler").scheduler
 
@@ -23,7 +21,7 @@ mc = on_shell_command("mc", parser=mc_parser, priority=5)
 @scheduler.scheduled_job("cron", minute="*/5", id="mcstatus")
 async def _():
     data = Data()
-    server_list = data.get_server_list()
+    server_list = cast(ServerList, data.get_server_list())
     bots = nonebot.get_bots()
 
     for type in server_list:
@@ -33,6 +31,7 @@ async def _():
                     ping = await MinecraftServer.lookup(server.address).async_ping()
                     status = True
                 except:
+                    ping = None
                     status = False
                 if status != server.status:
                     server.status = status

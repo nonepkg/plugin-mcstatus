@@ -1,6 +1,7 @@
-import yaml
 from pathlib import Path
-from typing import Optional, Union, List, Dict
+from typing import Dict, List, Optional, Union, cast
+
+import yaml
 from pydantic import BaseModel
 
 
@@ -46,7 +47,7 @@ class Data:
         user_id: Optional[int] = None,
         group_id: Optional[int] = None,
     ):
-        server_list = self.get_server_list(user_id, group_id)
+        server_list = cast(List[Server], self.get_server_list(user_id, group_id))
         if server not in server_list:
             server_list.append(server)
 
@@ -67,7 +68,7 @@ class Data:
         server_list = list(
             filter(
                 lambda server: server.name != name,
-                self.get_server_list(user_id, group_id),
+                cast(List[Server], self.get_server_list(user_id, group_id)),
             )
         )
 

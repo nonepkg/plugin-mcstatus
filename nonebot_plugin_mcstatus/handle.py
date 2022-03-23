@@ -1,6 +1,8 @@
+from typing import List, cast
+
 from mcstatus import MinecraftServer
 
-from nonebot_plugin_mcstatus.data import Server, Data
+from nonebot_plugin_mcstatus.data import Data, Server
 from nonebot_plugin_mcstatus.parser import Namespace
 
 
@@ -11,6 +13,7 @@ class Handle:
             ping = await MinecraftServer.lookup(args.address).async_ping()
             status = True
         except:
+            ping = None
             status = False
 
         return (
@@ -48,7 +51,7 @@ class Handle:
         if server_list:
             result = "本群关注服务器列表如下：\n" + "\n".join(
                 f"[{'o' if server.status else 'x'}] {server.name} ({server.address})"
-                for server in server_list
+                for server in cast(List[Server], server_list)
             )
         else:
             result = "本群关注服务器列表为空！"
