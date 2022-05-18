@@ -3,8 +3,12 @@ from typing import cast
 import nonebot
 from mcstatus import MinecraftServer
 from nonebot import get_bots
-from nonebot.adapters.onebot.v11 import (Bot, GroupMessageEvent, MessageEvent,
-                                         PrivateMessageEvent)
+from nonebot.adapters.onebot.v11 import (
+    Bot,
+    GroupMessageEvent,
+    MessageEvent,
+    PrivateMessageEvent,
+)
 from nonebot.params import ShellCommandArgs
 from nonebot.plugin import on_shell_command, require
 
