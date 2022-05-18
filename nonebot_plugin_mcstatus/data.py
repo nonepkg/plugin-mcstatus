@@ -31,15 +31,13 @@ class Data:
         if user_id:
             if user_id not in server_list["user"]:
                 server_list["user"][user_id] = []
-            result = server_list["user"][user_id]
+            return server_list["user"][user_id]
         elif group_id:
             if group_id not in server_list["group"]:
                 server_list["group"][group_id] = []
-            result = server_list["group"][group_id]
+            return server_list["group"][group_id]
         else:
-            result = server_list
-
-        return result
+            return server_list
 
     def add_server(
         self,

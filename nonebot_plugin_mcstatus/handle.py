@@ -46,14 +46,12 @@ class Handle:
 
     @classmethod
     async def list(cls, args: Namespace) -> str:
-        server_list = Data().get_server_list(args.user_id, args.group_id)
-
-        if server_list:
-            result = "本群关注服务器列表如下：\n" + "\n".join(
+        return (
+            "本群关注服务器列表如下：\n"
+            + "\n".join(
                 f"[{'o' if server.status else 'x'}] {server.name} ({server.address})"
                 for server in cast(List[Server], server_list)
             )
-        else:
-            result = "本群关注服务器列表为空！"
-
-        return result
+            if (server_list := Data().get_server_list(args.user_id, args.group_id))
+            else "本群关注服务器列表为空！"
+        )
