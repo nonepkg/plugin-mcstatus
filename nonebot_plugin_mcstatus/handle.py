@@ -1,6 +1,6 @@
 from typing import List, cast
 
-from mcstatus import MinecraftServer
+from mcstatus import JavaServer
 
 from nonebot_plugin_mcstatus.data import Data, Server
 from nonebot_plugin_mcstatus.parser import Namespace
@@ -10,7 +10,7 @@ class Handle:
     @classmethod
     async def check(cls, args: Namespace) -> str:
         try:
-            ping = await MinecraftServer.lookup(args.address).async_ping()
+            ping = await JavaServer.lookup(args.address).async_ping()
             status = True
         except:
             ping = None
@@ -25,7 +25,7 @@ class Handle:
     @classmethod
     async def add(cls, args: Namespace) -> str:
         try:
-            await MinecraftServer.lookup(args.address).async_ping()
+            await JavaServer.lookup(args.address).async_ping()
             status = True
         except:
             status = False
