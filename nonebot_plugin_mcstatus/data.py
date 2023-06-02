@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Dict, List, Optional, Union, cast
+from typing import Dict, List, Union, Optional, cast
 
 import yaml
 from pydantic import BaseModel
@@ -25,7 +25,6 @@ class Data:
     def get_server_list(
         self, user_id: Optional[int] = None, group_id: Optional[int] = None
     ) -> Union[ServerList, List[Server]]:
-
         server_list = self.__server_list
 
         if user_id:
@@ -62,7 +61,6 @@ class Data:
         user_id: Optional[int] = None,
         group_id: Optional[int] = None,
     ):
-
         server_list = list(
             filter(
                 lambda server: server.name != name,
