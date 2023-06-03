@@ -10,7 +10,7 @@ dependencies = [
     "mcstatus<11.0.0,>=10.0.1",
 ]
 name = "nonebot-plugin-mcstatus"
-version = "0.1.7"
+version = "0.1.8"
 description = "Check Minecraft server status"
 readme = "README.md"
 license = {text = "MIT"}

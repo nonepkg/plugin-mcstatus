@@ -2,8 +2,8 @@ from typing import List, cast
 
 from mcstatus import JavaServer
 
-from nonebot_plugin_mcstatus.data import Data, Server
 from nonebot_plugin_mcstatus.parser import Namespace
+from nonebot_plugin_mcstatus.data import Data, Server
 
 
 class Handle:
