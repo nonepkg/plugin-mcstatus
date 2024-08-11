@@ -1,3 +1,5 @@
+# 已归档，用 https://github.com/nikissXI/nonebot_plugins/tree/main/nonebot_plugin_mc_server_status 吧。
+
 # Nonebot Plugin MCStatus
 
 基于 [nonebot2](https://github.com/nonebot/nonebot2) 和 [go-cqhttp](https://github.com/Mrs4s/go-cqhttp) 的 Minecraft 服务器状态查询插件
